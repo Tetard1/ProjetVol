@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mer. 19 mars 2025 à 10:04
+-- Généré le : mer. 19 mars 2025 à 10:25
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.3.7
 
@@ -30,14 +30,14 @@ SET time_zone = "+00:00";
 CREATE TABLE `avions` (
   `id_avions` int NOT NULL,
   `nom` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `nb_place` int NOT NULL
+  `place_totale` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `avions`
 --
 
-INSERT INTO `avions` (`id_avions`, `nom`, `nb_place`) VALUES
+INSERT INTO `avions` (`id_avions`, `nom`, `place_totale`) VALUES
 (53, 'benladen', 500);
 
 -- --------------------------------------------------------
