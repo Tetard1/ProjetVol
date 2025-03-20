@@ -1,9 +1,9 @@
 <?php
-class Pilotes
+class pilotes
 {
     private $idPilotes;
     private $nomPilotes;
-    private $placeTotale;
+    private $prenomPilotes;
 
     public function __construct(array $donnees)
     {
@@ -56,17 +56,17 @@ class Pilotes
     /**
      * @return mixed
      */
-    public function getPlaceTotale()
+    public function getprenomPilotes()
     {
-        return $this->placeTotale;
+        return $this->prenomPilotes;
     }
 
     /**
-     * @param mixed $placeTotale
+     * @param mixed $prenomPilotes
      */
-    public function setPlaceTotale($placeTotale)
+    public function setprenomPilotes($prenomPilotes)
     {
-        $this->placeTotale = $placeTotale;
+        $this->prenomPilotes = $prenomPilotes;
     }
 
 
