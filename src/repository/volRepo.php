@@ -11,16 +11,22 @@ class volRepo
 
     public function ajoutervol(vol $vol)
     {
-        $req = 'INSERT INTO `vol`(date,heure,nb_place_dispo,ref_films,ref_salle,prix)
-VALUES(:date,:heure,:nbplacedispo,:films,:salle,:prix)';
+        $req = 'INSERT INTO `vol`(destination,date,heure_depart,heure_arrive,
+                  ville_depart,ville_arrive,nb_place_dispo,prix,ref_avions,ref_pilotes)
+        VALUES(:destination,:date,:heure_depart,:heure_arrive,:ville_depart,
+               :ville_arrive,:nbPlaceDispo,:prix,:avions,:pilotes)';
         $ajout = $this->bdd->getBdd()->prepare($req);
         $res = $ajout->execute(array(
+            'destination' => $vol->getDestination(),
             'date' => $vol->getDate(),
-            'heure' => $vol->getHeure(),
-            'nbplacedispo' => $vol->getNbPlcDispo(),
-            'films' => $vol->getRefFilms(),
-            'salle' => $vol->getRefSalle(),
-            'prix' => $vol->getPrixPlc()
+            'heure_depart' => $vol->getHeureDepart(),
+            'heure_arrive' => $vol->getHeureArrive(),
+            'ville_depart' => $vol->getVilleDepart(),
+            'ville_arrive' => $vol->getVilleArrive(),
+            'nbPlaceDispo' => $vol->getNbPlaceDispo(),
+            'avions' => $vol->getRefAvions(),
+            'pilotes' => $vol->getRefPilotes(),
+            'prix' => $vol->getPrix()
         ));
         if ($res) {
             return true;
@@ -31,17 +37,23 @@ VALUES(:date,:heure,:nbplacedispo,:films,:salle,:prix)';
 
     public function modifiervol(vol $vol)
     {
-        $req = 'UPDATE `vol` SET ref_films=:refFilms,ref_salle=:refSalle,prix=:prixPlc,
-heure=:heure,date=:date, nb_place_dispo=:nbPlcDispo WHERE id_vol=:idvol';
+        $req = 'UPDATE `vol` SET ref_avions=:refAvions,ref_pilotes=:refPilotes,prix=:prix,
+heure_depart=:heure_depart,heure_arrive=:heure_arrive,ville_depart=:ville_depart,
+ville_arrive=:ville_arrive,destination=:destination,date=:date,
+nb_place_dispo=:nbPlaceDispo WHERE id_vol=:idVol';
         $modif = $this->bdd->getBdd()->prepare($req);
         $req = $modif->execute(array(
             'idvol' => $vol->getIdvol(),
-            'refSalle' => $vol->getRefSalle(),
-            'refFilms' => $vol->getRefFilms(),
+            'refPilotes' => $vol->getRefPilotes(),
+            'refAvions' => $vol->getRefAvions(),
             'date' => $vol->getDate(),
-            'heure' => $vol->getHeure(),
-            'nbPlcDispo' => $vol->getNbPlcDispo(),
-            'prixPlc' => $vol->getPrixPlc()
+            'destination' => $vol->getDestination(),
+            'heure_depart' => $vol->getHeureDepart(),
+            'heure_arrive' => $vol->getHeureArrive(),
+            'ville_depart' => $vol->getVilleDepart(),
+            'ville_arrive' => $vol->getVilleArrive(),
+            'nbPlaceDispo' => $vol->getNbPlaceDispo(),
+            'prix' => $vol->getPrix()
         ));
         if ($req) {
             return true;
@@ -52,31 +64,31 @@ heure=:heure,date=:date, nb_place_dispo=:nbPlcDispo WHERE id_vol=:idvol';
 
     public function affichervols()
     {
-        $affiche = "SELECT *,DATE_FORMAT(heure,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_plc_dispo,nom_salle,titre,id_films,id_salle FROM `vol`
-LEFT JOIN films on id_films=ref_films
-LEFT JOIN salle on id_salle=ref_salle
-LEFT JOIN reservation on id_vol=ref_vol";
+        $affiche = "SELECT *,DATE_FORMAT(heure_depart,heure_arrive,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_place_dispo,nom_pilotes,nom_avions,id_avions,id_pilotes FROM `vol`
+LEFT JOIN avions on id_avions=ref_avions
+LEFT JOIN pilotes on id_pilotes=ref_pilotes
+LEFT JOIN vol on id_vol=ref_vol";
         $req = $this->bdd->getBdd()->prepare($affiche);
         $req->execute();
         return $req->fetchAll();
     }
 
-    public function afficherLavol(vol $vol)
+    public function afficherLevol(vol $vol)
     {
-        $affiche = "SELECT *,DATE_FORMAT(heure,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_plc_dispo,nom_salle,titre,id_films,id_salle FROM `vol`
-LEFT JOIN films on id_films=ref_films
-LEFT JOIN salle on id_salle=ref_salle
+        $affiche = "SELECT *,DATE_FORMAT(heure,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_plc_dispo,nom_pilotes,titre,id_avions,id_pilotes FROM `vol`
+LEFT JOIN avions on id_avions=ref_avions
+LEFT JOIN pilotes on id_pilotes=ref_pilotes
 LEFT JOIN reservation on id_vol=ref_vol WHERE id_vol=:idvol";
         $req = $this->bdd->getBdd()->prepare($affiche);
         $req->execute(array('idvol' => $vol->getIdvol()));
         return $req->fetch();
     }
 
-    public function getSalleFilm()
+    public function getpilotesFilm()
     {
-        $get = "SELECT *,nom_salle,titre,id_films,id_salle FROM vol
-LEFT JOIN films on id_films=ref_films
-LEFT JOIN salle on id_salle=ref_salle";
+        $get = "SELECT *,nom_pilotes,titre,id_avions,id_pilotes FROM vol
+LEFT JOIN avions on id_avions=ref_avions
+LEFT JOIN pilotes on id_pilotes=ref_pilotes";
         $res = $this->bdd->getBdd()->prepare($get);
         $res->execute();
         return $res->fetchAll();
@@ -84,14 +96,14 @@ LEFT JOIN salle on id_salle=ref_salle";
 
     public function getFilm()
     {
-        $get="SELECT titre,id_films FROM films";
+        $get="SELECT titre,id_avions FROM avions";
         $res = $this->bdd->getBdd()->prepare($get);
         $res->execute();
         return $res->fetchAll();
     }
-    public function getSalle()
+    public function getpilotes()
     {
-        $show="SELECT id_salle,nom_salle,place_totale FROM salle ORDER BY nom_salle ASC  ";
+        $show="SELECT id_pilotes,nom_pilotes,place_totale FROM pilotes ORDER BY nom_pilotes ASC  ";
         $res = $this->bdd->getBdd()->prepare($show);
         $res->execute();
         return $res->fetchAll();
