@@ -78,13 +78,13 @@ LEFT JOIN vol on id_vol=ref_vol";
         $affiche = "SELECT *,DATE_FORMAT(heure,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_plc_dispo,nom_pilotes,titre,id_avions,id_pilotes FROM `vol`
 LEFT JOIN avions on id_avions=ref_avions
 LEFT JOIN pilotes on id_pilotes=ref_pilotes
-LEFT JOIN reservation on id_vol=ref_vol WHERE id_vol=:idvol";
+LEFT JOIN vol on id_vol=ref_vol WHERE id_vol=:idvol";
         $req = $this->bdd->getBdd()->prepare($affiche);
         $req->execute(array('idvol' => $vol->getIdvol()));
         return $req->fetch();
     }
 
-    public function getpilotesFilm()
+    public function getpilotesAvions()
     {
         $get = "SELECT *,nom_pilotes,titre,id_avions,id_pilotes FROM vol
 LEFT JOIN avions on id_avions=ref_avions
@@ -94,7 +94,7 @@ LEFT JOIN pilotes on id_pilotes=ref_pilotes";
         return $res->fetchAll();
     }
 
-    public function getFilm()
+    public function getAvions()
     {
         $get="SELECT titre,id_avions FROM avions";
         $res = $this->bdd->getBdd()->prepare($get);
@@ -121,4 +121,3 @@ LEFT JOIN pilotes on id_pilotes=ref_pilotes";
         }
     }
 }
-?>

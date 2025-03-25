@@ -13,7 +13,7 @@
 
     <!--
 
-    Breezed Template
+Breezed Template
 
     https://templatemo.com/tm-543-breezed
 
@@ -90,7 +90,7 @@
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <h3 class="text-center mb-4">Inscription</h3>
-                        <form action="../src/traitement/inscriptionTraitement.php" method="post">
+                        <form action="utli.php" method="post">
                             <div class="form-group mb-3">
                                 <label for="nom">Nom</label>
                                 <input type="text" class="form-control" id="nom" name="nom" required>
