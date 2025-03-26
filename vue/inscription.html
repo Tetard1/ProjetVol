@@ -20,14 +20,23 @@
     -->
     <!-- Additional CSS Files -->
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
-
     <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
-
     <link rel="stylesheet" href="../assets/css/templatemo-breezed.css">
-
     <link rel="stylesheet" href="../assets/css/owl-carousel.css">
-
     <link rel="stylesheet" href="../assets/css/lightbox.css">
+
+    <!-- Appliquer un fond bleu ciel à la page entière -->
+    <style>
+        /* Appliquer un fond bleu ciel à toute la page */
+        body {
+            background-color: #87CEEB; /* Bleu ciel */
+        }
+
+        /* Enlever le fond bleu de la navbar */
+        .main-nav {
+            background-color: transparent; /* Suppression du fond */
+        }
+    </style>
 
 </head>
 
@@ -58,18 +67,10 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li class="submenu">
-                            <a href="javascript:">Menu</a>
-                            <ul>
-                                <li><a href="">Vol</a></li>
-                                <li><a href="">Avions</a></li>
-                                <li><a href="">Reservation</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
                             <a href="javascript:">Inscription/Connexion</a>
                             <ul>
                                 <li><a href="inscription.html">Inscription</a></li>
-                                <li><a href="">Connexion</a></li>
+                                <li><a href="connexion.php">Connexion</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -83,6 +84,7 @@
     </div>
 </header>
 <!-- ***** Header Area End ***** -->
+
 <section id="inscription" class="py-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -123,6 +125,40 @@
         </div>
     </div>
 </section>
+
+<!-- jQuery -->
+<script src="../assets/js/jquery-2.1.0.min.js"></script>
+<!-- Bootstrap -->
+<script src="../assets/js/popper.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+
+<!-- Plugins -->
+<script src="../assets/js/owl-carousel.js"></script>
+<script src="../assets/js/scrollreveal.min.js"></script>
+<script src="../assets/js/waypoints.min.js"></script>
+<script src="../assets/js/jquery.counterup.min.js"></script>
+<script src="../assets/js/imgfix.min.js"></script>
+<script src="../assets/js/slick.js"></script>
+<script src="../assets/js/lightbox.js"></script>
+<script src="../assets/js/isotope.js"></script>
+
+<!-- Global Init -->
+<script src="../assets/js/custom.js"></script>
+
+<script>
+    $(function() {
+        var selectedClass = "";
+        $("p").click(function(){
+            selectedClass = $(this).attr("data-rel");
+            $("#portfolio").fadeTo(50, 0.1);
+            $("#portfolio div").not("."+selectedClass).fadeOut();
+            setTimeout(function() {
+                $("."+selectedClass).fadeIn();
+                $("#portfolio").fadeTo(50, 1);
+            }, 500);
+        });
+    });
+</script>
+
 </body>
 </html>
-

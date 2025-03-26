@@ -11,23 +11,50 @@
 
     <title>Patapouf Airport Inscription</title>
 
-    <!--
-
-Breezed Template
-
-    https://templatemo.com/tm-543-breezed
-
-    -->
     <!-- Additional CSS Files -->
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
-
     <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
-
     <link rel="stylesheet" href="../assets/css/templatemo-breezed.css">
-
     <link rel="stylesheet" href="../assets/css/owl-carousel.css">
-
     <link rel="stylesheet" href="../assets/css/lightbox.css">
+
+    <!-- Appliquer un fond bleu ciel à la page entière -->
+    <style>
+        /* Appliquer un fond bleu ciel à toute la page */
+        body {
+            background-color: #87CEEB; /* Bleu ciel */
+            justify-content: center; /* Centrer horizontalement */
+            align-items: center; /* Centrer verticalement */
+            height: 100vh; /* Prendre toute la hauteur de la fenêtre */
+            margin: 0; /* Enlever les marges par défaut */
+        }
+
+        /* Enlever le fond bleu de la navbar */
+        .main-nav {
+            background-color: transparent; /* Suppression du fond */
+        }
+
+        /* Styliser le formulaire */
+        .card {
+            width: 100%;
+            max-width: 500px; /* Limiter la largeur maximale du formulaire */
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        /* Espacer un peu les éléments du formulaire */
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            font-size: 20px;
+            padding: 10px;
+            width: 100%;
+        }
+    </style>
 
 </head>
 
@@ -43,7 +70,6 @@ Breezed Template
 </div>
 <!-- ***** Preloader End ***** -->
 
-
 <!-- ***** Header Area Start ***** -->
 <header class="header-area header-sticky">
     <div class="container">
@@ -58,18 +84,10 @@ Breezed Template
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li class="submenu">
-                            <a href="javascript:">Menu</a>
-                            <ul>
-                                <li><a href="">Vol</a></li>
-                                <li><a href="">Avions</a></li>
-                                <li><a href="">Reservation</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
                             <a href="javascript:">Inscription/Connexion</a>
                             <ul>
                                 <li><a href="inscription.html">Inscription</a></li>
-                                <li><a href="">Connexion</a></li>
+                                <li><a href="connexion.php">Connexion</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -83,30 +101,16 @@ Breezed Template
     </div>
 </header>
 <!-- ***** Header Area End ***** -->
-<section id="inscription" class="py-5">
+
+<!-- ***** Connexion Form Section ***** -->
+<section id="connexion" class="py-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow-lg">
                     <div class="card-body">
-                        <h3 class="text-center mb-4">Inscription</h3>
-                        <form action="utli.php" method="post">
-                            <div class="form-group mb-3">
-                                <label for="nom">Nom</label>
-                                <input type="text" class="form-control" id="nom" name="nom" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="prenom">Prénom</label>
-                                <input type="text" class="form-control" id="prenom" name="prenom" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="date_de_naissance">Date de naissance</label>
-                                <input type="date" class="form-control" id="date_de_naissance" name="date_de_naissance" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="ville">Ville</label>
-                                <input type="text" class="form-control" id="ville" name="ville" required>
-                            </div>
+                        <h3 class="text-center mb-4">Connexion</h3>
+                        <form action="../src/traitement/connexionTraitement.php" method="post">
                             <div class="form-group mb-3">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
@@ -115,7 +119,7 @@ Breezed Template
                                 <label for="mdp">Mot de passe</label>
                                 <input type="password" class="form-control" id="mdp" name="mdp" required>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+                            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
                         </form>
                     </div>
                 </div>
@@ -123,6 +127,40 @@ Breezed Template
         </div>
     </div>
 </section>
+
+<!-- jQuery -->
+<script src="../assets/js/jquery-2.1.0.min.js"></script>
+<!-- Bootstrap -->
+<script src="../assets/js/popper.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+
+<!-- Plugins -->
+<script src="../assets/js/owl-carousel.js"></script>
+<script src="../assets/js/scrollreveal.min.js"></script>
+<script src="../assets/js/waypoints.min.js"></script>
+<script src="../assets/js/jquery.counterup.min.js"></script>
+<script src="../assets/js/imgfix.min.js"></script>
+<script src="../assets/js/slick.js"></script>
+<script src="../assets/js/lightbox.js"></script>
+<script src="../assets/js/isotope.js"></script>
+
+<!-- Global Init -->
+<script src="../assets/js/custom.js"></script>
+
+<script>
+    $(function() {
+        var selectedClass = "";
+        $("p").click(function(){
+            selectedClass = $(this).attr("data-rel");
+            $("#portfolio").fadeTo(50, 0.1);
+            $("#portfolio div").not("."+selectedClass).fadeOut();
+            setTimeout(function() {
+                $("."+selectedClass).fadeIn();
+                $("#portfolio").fadeTo(50, 1);
+            }, 500);
+        });
+    });
+</script>
+
 </body>
 </html>
-

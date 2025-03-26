@@ -13,7 +13,7 @@ if (empty($_POST["email"]) ||
         'mdp' => $_POST['mdp'],
     ));
     var_dump($user);
-    $repository = new repositoryUtilisateur();
+    $repository = new utilisateurRepo();
     $resultat = $repository->connexion($user);
     var_dump($resultat);
     if ($resultat != null) {
@@ -23,9 +23,9 @@ if (empty($_POST["email"]) ||
             "idUtilisateur" => $resultat->getIdUtilisateur(),
             "role" => $resultat->getRole()
         ];
-        header("Location: ../..");
+        header("Location: ../../index2.php");
     } else {
-        header("Location: ../../index.html");
+        header("Location: ../../vue/inscription.html");
     }
 
 }

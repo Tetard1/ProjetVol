@@ -19,7 +19,7 @@ if(empty($_POST["nom"]) ||
     $user = new Utilisateur(array(
         'nom' => $_POST['nom'],
         'prenom' => $_POST['prenom'],
-        'date_de_naissance' => $_POST['date_de_naissance'],
+        'dateDeNaissance' => $_POST['date_de_naissance'],
         'ville' => $_POST['ville'],
         'email' => $_POST['email'],
         'mdp' => password_hash($_POST['mdp'], PASSWORD_DEFAULT),
@@ -31,9 +31,8 @@ if(empty($_POST["nom"]) ||
     var_dump($resultat);
     if($resultat == true){
         header("Location: ../../vue/connexion.php");
-    }else{
-        header("Location: ../../index.html");
     }
+
 
 }
 
