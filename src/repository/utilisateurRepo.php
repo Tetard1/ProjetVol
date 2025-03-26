@@ -73,7 +73,7 @@ class utilisateurRepo
     public function modification(Utilisateur $user)
     {
         //var_dump($_POST);
-        $sqlmodification = "UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email WHERE id_utilisateur = :id_utilisateur";
+        $sqlmodification = "UPDATE utilisateur SET nom = :nom, prenom = :prenom, date_de_naissance = :date_de_naissance,ville = :ville,email = :email WHERE id_utilisateur = :id_utilisateur";
         $reqmodification = $this->bdd->getBdd()->prepare($sqlmodification);
         $resmodification = $reqmodification->execute(array(
             'nom' => $user->getNom(),
@@ -83,7 +83,7 @@ class utilisateurRepo
             'email' => $user->getEmail(),
             'id_utilisateur' => $user->getIdUtilisateur()
         ));
-        header("Location: ../../vue/ModificationUtilisateur.php");
+        header("Location: ../../vue/gestionUtilisateur.php");
         return $resmodification ? "Modification réussie" : "Échec de la modification";
     }
 
@@ -95,8 +95,8 @@ class utilisateurRepo
         $ressuppression = $reqsuppression->execute(array(
             'id_utilisateur' => $user->getIdUtilisateur()
         ));
-
         return $ressuppression ? "Suppression réussie" : "Échec de la suppression";
+
     }
 
     public function afficherUtilisateur(Utilisateur $user)

@@ -89,7 +89,7 @@ $result=$repository->afficherUtilisateur($user);
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="../index.html" class="logo">
+                    <a href="../index2.php" class="logo">
                         <img src="../assets/images/projetvol.png" height="70" width="100"/>
                     </a>
                     <!-- ***** Logo End ***** -->
@@ -152,7 +152,7 @@ $result=$repository->afficherUtilisateur($user);
         </div>
 
         <h1 class="mt-5">Deconnexion du compte</h1>
-        <form action="../src/traitement/deconnexionTraitement.php" method="post">
+        <form action="../src/traitement/deconnexionUtilisateurTraitement.php" method="post">
             <input type="submit" class="btn btn-primary" value="Deconnexion" name="deconnexion">
         </form>
 
@@ -178,7 +178,11 @@ $result=$repository->afficherUtilisateur($user);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form action="../src/traitement/SuppressionUtilisateur.php" method="post">
+                <form action="../src/traitement/suppresionUtilisateurTraitement.php" method="post">
+                    <input type="hidden" name="action" value="suppresion">
+                    <div class="mb-3">
+                        <input type="hidden" class="form-control" id="idUtilisateur" name="idUtilisateur" value="<?=$_SESSION["userConnecte"]['idUtilisateur']?>">
+                    </div>
                     <input type="submit" class="btn btn-danger" value="Supprimer le compte" name="supprimer">
                 </form>
             </div>
@@ -191,6 +195,9 @@ $result=$repository->afficherUtilisateur($user);
 <!-- Bootstrap -->
 <script src="../assets/js/popper.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS (avec Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <!-- Plugins -->
 <script src="../assets/js/owl-carousel.js"></script>

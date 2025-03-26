@@ -73,7 +73,7 @@ $userPrenom = $_SESSION["userConnecte"]["userPrenom"] ?? "Invité";
                             </ul>
                         </li>
                         <li class="item">
-                            <a href="/vue/gestionUtilisateur.php">Mon compte</a>
+                            <a href="vue/gestionUtilisateur.php">Mon compte</a>
                         </li>
                     </ul>
                     <a class='menu-trigger'>
