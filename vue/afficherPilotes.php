@@ -1,18 +1,15 @@
 <?php
-require_once "../src/bdd/BDD.php";
-require_once '../src/modele/utilisateur.php';
-require_once '../src/repository/utilisateurRepo.php';
+require_once '../src/bdd/Bdd.php';
+require_once '../src/modele/Pilotes.php';
+require_once '../src/repository/PilotesRepo.php';
 session_start();
-if(!isset($_SESSION["userConnecte"])){
-header('Location:../index.html');
-session_destroy();
+if($_SESSION["userConnecte"]["role"]=="user"){
+    header('Location:../vue/accueil.php');
 }
-$user=new Utilisateur([
-'idUtilisateur'=>$_SESSION['userConnecte']['idUtilisateur'],
-]);
-$repository=new utilisateurRepo();
-$result=$repository->afficherUtilisateur($user);
+$pilotesRepo = new PilotesRepo();
+$resultat = $pilotesRepo->pilotesAffiche();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +62,18 @@ $result=$repository->afficherUtilisateur($user);
         .modal-content {
             border-radius: 10px;
         }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
 
+        .container, table {
+            margin: auto;
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -99,83 +107,68 @@ $result=$repository->afficherUtilisateur($user);
     </div>
 </header>
 <!-- ***** Header Area End ***** -->
+<script>
+    function filterPilotes() {
+        let input = document.getElementById("search").value.toLowerCase();
+        let rows = document.querySelectorAll("tbody tr");
 
-<!-- ***** Modification Compte Section ***** -->
-<section id="gestion-utilisateur" class="py-5">
-    <div class="container">
-        <h1>Modification du compte</h1>
-        <form action="../src/traitement/modifUtilisateurTraitement.php" method="post">
-            <input type="hidden" name="action" value="modification">
-            <div class="mb-3">
-                <input type="hidden" class="form-control" id="idUtilisateur" name="idUtilisateur" value="<?=$_SESSION["userConnecte"]['idUtilisateur']?>">
-            </div>
-            <div class="mb-3">
-                <label for="nom" class="form-label">Nom :</label>
-                <input type="text" class="form-control" id="nom" name="nom" value="<?=$result["nom"]?>">
-            </div>
-            <div class="mb-3">
-                <label for="prenom" class="form-label">Prénom :</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" value="<?=$result["prenom"]?>">
-            </div>
-            <div class="mb-3">
-                <label for="date_de_naissance" class="form-label">Date de naissance :</label>
-                <input type="date" class="form-control" id="date_de_naissance" name="date_de_naissance" value="<?=$result["date_de_naissance"]?>">
-            </div>
-            <div class="mb-3">
-                <label for="ville" class="form-label">Ville :</label>
-                <input type="text" class="form-control" id="ville" name="ville" value="<?=$result["ville"]?>">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email :</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?=$result["email"]?>">
-            </div>
-            <input type="submit" class="btn btn-warning" value="Modifier">
-        </form>
+        rows.forEach(row => {
+            let title = row.cells[0].innerText.toLowerCase();
+            row.style.display = title.includes(input) ? "" : "none";
+        });
+    }
 
-        <div class="mb-3">
-            <label for="mdp" class="form-label">Mot de passe :</label>
-            <a href="modifMdp.php" role="button" class="btn btn-secondary">Modifier le mot de passe</a>
-        </div>
+    function confirmDelete(id) {
+        document.getElementById("confirmDeleteForm").action = "../src/traitement/traitementSuppPilotes.php?id=" + id;
+        var confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        confirmModal.show();
+    }
+</script>
 
-        <h1 class="mt-5">Deconnexion du compte</h1>
-        <form action="../src/traitement/deconnexionUtilisateurTraitement.php" method="post">
-            <input type="submit" class="btn btn-primary" value="Deconnexion" name="deconnexion">
-        </form>
+<input type="text" id="search" class="search-bar" onkeyup="filterPilotes()" placeholder="Rechercher un pilotes">
 
-        <h1 class="mt-5">Suppression du compte</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Nom du Pilotes</th>
+        <th>Place Disponibles</th>
+        <th>Modifier</th>
+        <th>Supprimer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($resultat as $pilotes): ?>
+        <tr>
+            <td><?= htmlspecialchars($pilotes['nomPilotes']) ?></td>
+            <td><?= $pilotes["prenomPilotes"] ?></td>
+            <td><a href='modifPilotes.php?id=<?= $pilotes["id_pilotes"] ?>'><button type='button' class='btn btn-warning'>Modifier</button></a></td>
+            <td><button type='button' class='btn btn-danger' onclick="confirmDelete(<?= $pilotes['id_pilotes'] ?>)">Supprimer</button></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
 
-        <!-- Bouton pour ouvrir la modale -->
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
-            Supprimer
-        </button>
-    </div>
-</section>
-
-<!-- Modal de Confirmation -->
+<section>
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Confirmer la suppression</h5>
+                <h5 class="modal-title" id="confirmModalLabel">Confirmation de suppression</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.
+                Êtes-vous sûr de vouloir supprimer ce pilotes ? Cette action est irréversible.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form action="../src/traitement/suppresionUtilisateurTraitement.php" method="post">
-                    <input type="hidden" name="action" value="suppresion">
-                    <div class="mb-3">
-                        <input type="hidden" class="form-control" id="idUtilisateur" name="idUtilisateur" value="<?=$_SESSION["userConnecte"]['idUtilisateur']?>">
-                    </div>
-                    <input type="submit" class="btn btn-danger" value="Supprimer le compte" name="supprimer">
+                <form id="confirmDeleteForm" method="post">
+                    <button type="submit" class="btn btn-danger">Confirmer</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+</section>
 <!-- jQuery -->
 <script src="../assets/js/jquery-2.1.0.min.js"></script>
 <!-- Bootstrap -->
@@ -214,4 +207,3 @@ $result=$repository->afficherUtilisateur($user);
 </script>
 </body>
 </html>
-

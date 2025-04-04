@@ -58,7 +58,7 @@ $userPrenom = $_SESSION["userConnecte"]["userPrenom"] ?? "Invité";
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="index2.php" class="logo">
                         <img src="assets/images/projetvol.png" height="70" width="100"/>
                     </a>
                     <!-- ***** Logo End ***** -->
@@ -67,7 +67,7 @@ $userPrenom = $_SESSION["userConnecte"]["userPrenom"] ?? "Invité";
                         <li class="submenu">
                             <a href="javascript:">Menu</a>
                             <ul>
-                                <li><a href="">Vol</a></li>
+                                <li><a href="../ProjetVol/vue/afficherPilotes.php">Vol</a></li>
                                 <li><a href="">Avions</a></li>
                                 <li><a href="">Reservation</a></li>
                             </ul>

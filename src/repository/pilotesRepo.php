@@ -10,13 +10,13 @@ class pilotesRepo
 
     public function ajoutPilotes(pilotes $pilotes)
     {
-        $sql = 'INSERT INTO pilotes(nomPilotes,prenomPilotes,genre,durée,affiche) VALUES (:nomPilotes,:prenomPilotes)';
+        $sql = 'INSERT INTO pilotes(nomPilotes,prenomPilotes) VALUES (:nomPilotes,:prenomPilotes)';
         $req = $this->bdd->getBDD()->prepare($sql);
         $req->execute(array(
             'nomPilotes' => $pilotes->getnomPilotes(),
             'prenomPilotes' => $pilotes->getprenomPilotes(),
         ));
-        header('location:../../vue/pilotesAffiche.php');
+        header('location:../../vue/afficherPilotes.php');
     }
     public function modifPilotes(pilotes $pilotes)
     {
@@ -26,7 +26,7 @@ class pilotesRepo
             'nomPilotes' => $pilotes->getnomPilotes(),
             'prenomPilotes' => $pilotes->getprenomPilotes(),
         ));
-        header('location:../../vue/pilotesAffiche.php');
+        header('location:../../vue/afficherPilotes.php');
     }
     public function suppressionPilotes(pilotes $pilotes)
     {
@@ -45,5 +45,14 @@ class pilotesRepo
         $reqpilotes->execute();
 
         return $reqpilotes->fetchAll();
+    }
+    public function afficherLePilotes(Pilotes $pilotes){
+        $show="SELECT nomPilotes,prenomPilotes FROM `pilotes` WHERE id_pilotes=:idPilotes
+            ORDER BY nomPilotes ASC";
+        $req=$this->bdd->getBdd()->prepare($show);
+        $req->execute([
+            'idPilotes'=>$pilotes->getIdPilotes()
+        ]);
+        return $req->fetch();
     }
 }
