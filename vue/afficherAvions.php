@@ -1,13 +1,13 @@
 <?php
 require_once '../src/bdd/Bdd.php';
-require_once '../src/modele/Pilotes.php';
-require_once '../src/repository/PilotesRepo.php';
+require_once '../src/modele/avions.php';
+require_once '../src/repository/avionsRepo.php';
 session_start();
 if($_SESSION["userConnecte"]["role"]=="user"){
     header('Location:../index.html');
 }
-$pilotesRepo = new PilotesRepo();
-$resultat = $pilotesRepo->pilotesAffiche();
+$avionsRepo = new AvionsRepo();
+$resultat = $avionsRepo->afficherAvions();
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +108,7 @@ $resultat = $pilotesRepo->pilotesAffiche();
 </header>
 <!-- ***** Header Area End ***** -->
 <script>
-    function filterPilotes() {
+    function filterAvions() {
         let input = document.getElementById("search").value.toLowerCase();
         let rows = document.querySelectorAll("tbody tr");
 
@@ -125,51 +125,51 @@ $resultat = $pilotesRepo->pilotesAffiche();
     }
 </script>
 
-<input type="text" id="search" class="search-bar" onkeyup="filterPilotes()" placeholder="Rechercher un pilotes">
+<input type="text" id="search" class="search-bar" onkeyup="filterAvions()" placeholder="Rechercher un avions">
 
 <table>
     <thead>
     <tr>
-        <th>Nom Pilote </th>
-        <th>Prenom Pilote </th>
+        <th>Nom Avion </th>
+        <th>place Totale </th>
         <th>Modifier</th>
         <th>Supprimer</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($resultat as $pilotes): ?>
+    <?php foreach ($resultat as $avions):;?>
         <tr>
-            <td><?= htmlspecialchars($pilotes['nomPilotes']) ?></td>
-            <td><?= $pilotes["prenomPilotes"] ?></td>
-            <td><a href='modifPilotes.php?id=<?= $pilotes["id_pilotes"] ?>'><button type='button' class='btn btn-warning'>Modifier</button></a></td>
-            <td><button type='button' class='btn btn-danger' onclick="confirmDelete(<?= $pilotes['id_pilotes'] ?>)">Supprimer</button></td>
+            <td><?= htmlspecialchars($avions['nom_avions']) ?></td>
+            <td><?= $avions["place_totale"] ?></td>
+            <td><a href='modifAvions.php?id=<?= $avions["id_avions"] ?>'><button type='button' class='btn btn-warning'>Modifier</button></a></td>
+            <td><button type='button' class='btn btn-danger' onclick="confirmDelete(<?= $avions['id_avions'] ?>)">Supprimer</button></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
 
 <section>
-<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Confirmation de suppression</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer ce pilotes ? Cette action est irréversible.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form id="confirmDeleteForm" method="post" action="../src/traitement/suppresionPilotesTraitement.php">
-                    <input type="hidden" name="idPilotes" id="deleteIdInput">
-                    <button type="submit" class="btn btn-danger">Confirmer</button>
-                </form>
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmation de suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cette avions ? Cette action est irréversible.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <form id="confirmDeleteForm" method="post" action="../src/traitement/suppresionAvionsTraitement.php">
+                        <input type="hidden" name="idAvions" id="deleteIdInput">
+                        <button type="submit" class="btn btn-danger">Confirmer</button>
+                    </form>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 <!-- jQuery -->
 <script src="../assets/js/jquery-2.1.0.min.js"></script>
