@@ -125,7 +125,7 @@ if(!isset($_SESSION["userConnecte"])){
                                 <label for="prenomPilotes">Prénom</label>
                                 <input type="text" class="form-control" id="prenomPilotes" name="prenomPilotes" required>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Ajoute le pilote</button>
+                            <button type="submit" class="btn btn-primary w-100">Ajouter le pilote</button>
                         </form>
                     </div>
                 </div>

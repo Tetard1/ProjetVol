@@ -25,6 +25,7 @@ class pilotesRepo
         $req->execute(array(
             'nomPilotes' => $pilotes->getnomPilotes(),
             'prenomPilotes' => $pilotes->getprenomPilotes(),
+            'id' => $pilotes->getIdPilotes()
         ));
         header('location:../../vue/afficherPilotes.php');
     }
@@ -33,7 +34,7 @@ class pilotesRepo
         $sql = 'DELETE FROM pilotes WHERE id_pilotes = :id';
         $req = $this->bdd->getBDD()->prepare($sql);
         return $req->execute(array(
-            'id' => $pilotes->getId()));
+            'id' => $pilotes->getIdPilotes()));
     }
 
 

@@ -119,7 +119,7 @@ $resultat = $pilotesRepo->pilotesAffiche();
     }
 
     function confirmDelete(id) {
-        document.getElementById("confirmDeleteForm").action = "../src/traitement/traitementSuppPilotes.php?id=" + id;
+        document.getElementById("deleteIdInput").value = id;
         var confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
         confirmModal.show();
     }
@@ -130,8 +130,8 @@ $resultat = $pilotesRepo->pilotesAffiche();
 <table>
     <thead>
     <tr>
-        <th>Nom du Pilotes</th>
-        <th>Place Disponibles</th>
+        <th>Nom Pilote </th>
+        <th>Prenom Pilote </th>
         <th>Modifier</th>
         <th>Supprimer</th>
     </tr>
@@ -161,9 +161,11 @@ $resultat = $pilotesRepo->pilotesAffiche();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form id="confirmDeleteForm" method="post">
+                <form id="confirmDeleteForm" method="post" action="../src/traitement/suppresionPilotesTraitement.php">
+                    <input type="hidden" name="idPilotes" id="deleteIdInput">
                     <button type="submit" class="btn btn-danger">Confirmer</button>
                 </form>
+
             </div>
         </div>
     </div>
