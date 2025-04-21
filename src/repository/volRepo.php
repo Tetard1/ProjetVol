@@ -9,7 +9,7 @@ class volRepo
         $this->bdd = new BDD();
     }
 
-    public function ajoutervol(vol $vol)
+    public function ajouterVol(vol $vol)
     {
         $req = 'INSERT INTO `vol`(destination,date,heure_depart,heure_arrive,
                   ville_depart,ville_arrive,nb_place_dispo,prix,ref_avions,ref_pilotes)
