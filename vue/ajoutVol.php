@@ -3,10 +3,14 @@ require_once '../src/bdd/Bdd.php';
 require_once '../src/modele/vol.php';
 require_once '../src/repository/volRepo.php';
 session_start();
-if(!isset($_SESSION["userConnecte"])){
+if(!isset($_SESSION["userConnecte"])) {
     header('Location:../index.php');
     session_destroy();
 }
+
+$volRepo=new volRepo();
+$avions=$volRepo->getAvions();
+$pilotes=$volRepo->getPilotes();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,11 +131,11 @@ if(!isset($_SESSION["userConnecte"])){
                             </div>
                             <div class="form-group mb-3">
                                 <label for="heure_depart">Heure de depart du vol </label>
-                                <input type="datetime-local" class="form-control" id="heure_depart" name="heure_depart" required>
+                                <input type="time" class="form-control" id="heure_depart" name="heure_depart" required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="heure_arrive">Heure d'arriver du vol </label>
-                                <input type="datetime-local" class="form-control" id="heure_arrive" name="heure_arrive" required>
+                                <input type="time" class="form-control" id="heure_arrive" name="heure_arrive" required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="ville_depart">Ville de depart du vol </label>
@@ -142,21 +146,41 @@ if(!isset($_SESSION["userConnecte"])){
                                 <input type="text" class="form-control" id="ville_arrive" name="ville_arrive" required>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="nbPlaceDispo">Nombre de Place Disponible</label>
-                                <input type="number" class="form-control" id="nbPlaceDispo" name="nbPlaceDispo" required>
+                                <label for="nb_place_dispo">Nombre de Place Disponible</label>
+                                <input type="number" class="form-control" id="nb_place_dispo" name="nb_place_dispo" required>
+                            </div>
+                            <div class="form-group mb-3"
+                                <label for="nom">Veuillez choisir un avions : </label>
+                                <select name="ref_avions" id="nom_avions">
+                                    <?php
+                                    foreach ($avions as $avions){
+                                    echo"<option value='".$avions["id_avions"]."'>".$avions["nom_avions"]."</option>
+                                            ";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3"
+                                <label for="nomPilotes">Veuillez choisir un pilotes : </label>
+                                <select name="ref_pilotes" id="nomPilotes">
+                                        <?php
+                                        foreach ($pilotes as $pilotes){
+                                            echo"<option value='".$pilotes["id_pilotes"]."'>".$pilotes["nomPilotes"]."</option>   
+                                              ";
+                                        }
+                                        ?>
+                                    </select>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="prix">Prix du vol</label>
                                 <input type="number" class="form-control" id="prix" name="prix" required>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Ajouter l'avion</button>
-                        </form>
-                    </div>
-                </div>
+                <button type="submit" class="btn btn-primary w-100">Ajouter l'avion</button>
             </div>
         </div>
     </div>
 </section>
+
 
 <!-- jQuery -->
 <script src="../assets/js/jquery-2.1.0.min.js"></script>

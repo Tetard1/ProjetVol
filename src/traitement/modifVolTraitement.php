@@ -20,11 +20,8 @@ if(empty($_POST["destination"])||empty($_POST["prix"])){
         'prix' => $_POST['prix']
     ]);
     $volRepo = new volRepo();
-    $resultat= $volRepo->ajouterVol($vol);
-    if($resultat){
-        header("Location: ../../../index2.php");
-    }else{
-        header("Location: ../../vue/ajoutvol.php");
-    }
+    $resultat= $volRepo->modifiervol($vol);
+    header("Location: ../../vue/afficherVol.php");
+
 
 }

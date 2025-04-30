@@ -43,7 +43,7 @@ ville_arrive=:ville_arrive,destination=:destination,date=:date,
 nb_place_dispo=:nbPlaceDispo WHERE id_vol=:idVol';
         $modif = $this->bdd->getBdd()->prepare($req);
         $req = $modif->execute(array(
-            'idvol' => $vol->getIdvol(),
+            'id_vol' => $vol->getIdvol(),
             'refPilotes' => $vol->getRefPilotes(),
             'refAvions' => $vol->getRefAvions(),
             'date' => $vol->getDate(),
@@ -52,7 +52,7 @@ nb_place_dispo=:nbPlaceDispo WHERE id_vol=:idVol';
             'heure_arrive' => $vol->getHeureArrive(),
             'ville_depart' => $vol->getVilleDepart(),
             'ville_arrive' => $vol->getVilleArrive(),
-            'nbPlaceDispo' => $vol->getNbPlaceDispo(),
+            'nb_place_dispo' => $vol->getNbPlaceDispo(),
             'prix' => $vol->getPrix()
         ));
         if ($req) {
@@ -67,7 +67,14 @@ nb_place_dispo=:nbPlaceDispo WHERE id_vol=:idVol';
         $affiche = "SELECT *,DATE_FORMAT(heure_depart,heure_arrive,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_place_dispo,nom_pilotes,nom_avions,id_avions,id_pilotes FROM `vol`
 LEFT JOIN avions on id_avions=ref_avions
 LEFT JOIN pilotes on id_pilotes=ref_pilotes
-LEFT JOIN vol on id_vol=ref_vol";
+LEFT JOIN reservation on id_vol=ref_vol";
+        $req = $this->bdd->getBdd()->prepare($affiche);
+        $req->execute();
+        return $req->fetchAll();
+    }
+    public function afficherLesVols()
+    {
+        $affiche= "SELECT * FROM vol";
         $req = $this->bdd->getBdd()->prepare($affiche);
         $req->execute();
         return $req->fetchAll();
@@ -75,10 +82,10 @@ LEFT JOIN vol on id_vol=ref_vol";
 
     public function afficherLevol(vol $vol)
     {
-        $affiche = "SELECT *,DATE_FORMAT(heure,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_plc_dispo,nom_pilotes,titre,id_avions,id_pilotes FROM `vol`
+        $affiche = "SELECT *,DATE_FORMAT(heure,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_plc_dispo,nom_pilotes,id_avions,id_pilotes FROM `vol`
 LEFT JOIN avions on id_avions=ref_avions
 LEFT JOIN pilotes on id_pilotes=ref_pilotes
-LEFT JOIN vol on id_vol=ref_vol WHERE id_vol=:idvol";
+WHERE id_vol=:idvol";
         $req = $this->bdd->getBdd()->prepare($affiche);
         $req->execute(array('idvol' => $vol->getIdvol()));
         return $req->fetch();
@@ -86,7 +93,7 @@ LEFT JOIN vol on id_vol=ref_vol WHERE id_vol=:idvol";
 
     public function getpilotesAvions()
     {
-        $get = "SELECT *,nom_pilotes,titre,id_avions,id_pilotes FROM vol
+        $get = "SELECT *,nom_pilotes,id_avions,id_pilotes FROM vol
 LEFT JOIN avions on id_avions=ref_avions
 LEFT JOIN pilotes on id_pilotes=ref_pilotes";
         $res = $this->bdd->getBdd()->prepare($get);
@@ -96,14 +103,14 @@ LEFT JOIN pilotes on id_pilotes=ref_pilotes";
 
     public function getAvions()
     {
-        $get="SELECT titre,id_avions FROM avions";
+        $get="SELECT id_avions,nom,place_totale FROM avions ORDER BY nom ASC";
         $res = $this->bdd->getBdd()->prepare($get);
         $res->execute();
         return $res->fetchAll();
     }
     public function getpilotes()
     {
-        $show="SELECT id_pilotes,nom_pilotes,place_totale FROM pilotes ORDER BY nom_pilotes ASC  ";
+        $show="SELECT id_pilotes,nomPilotes FROM pilotes ORDER BY nomPilotes ASC  ";
         $res = $this->bdd->getBdd()->prepare($show);
         $res->execute();
         return $res->fetchAll();

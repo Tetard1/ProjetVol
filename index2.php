@@ -67,12 +67,13 @@ $userPrenom = $_SESSION["userConnecte"]["userPrenom"] ?? "Invité";
                         <li class="submenu">
                             <a href="javascript:">Menu</a>
                             <ul>
-                                <li><a href="">Vol</a></li>
-                                <li><a href="">Avions</a></li>
-                                <li><a href="">Reservation</a></li>
-                                <li><a href="../ProjetVol/vue/afficherPilotes.php">Afficher Pilotes</a></li>
+                                <li><a href="../ProjetVol/vue/ajoutVol.php">Vol</a></li>
+                                <li><a href="../ProjetVol/vue/afficherVol.php">Afficher Vol</a></li>
+                                <li><a href="../ProjetVol/vue/ajoutAvions.php">Ajout Avions</a></li>
+                                <li><a href="../ProjetVol/vue/afficherAvions.php">Afficher Avions</a></li>
                                 <li><a href="../ProjetVol/vue/ajoutPilotes.php">Ajout Pilotes</a></li>
-
+                                <li><a href="../ProjetVol/vue/afficherPilotes.php">Afficher Pilotes</a></li>
+                                <li><a href="">Reservation</a></li>
                             </ul>
                         </li>
                         <li class="item">
