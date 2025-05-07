@@ -64,10 +64,17 @@ nb_place_dispo=:nbPlaceDispo WHERE id_vol=:idVol';
 
     public function affichervols()
     {
-        $affiche = "SELECT *,DATE_FORMAT(heure_depart,heure_arrive,'%H:%i') as heure_complete,(nb_place_dispo-nb_place_reserver) as nb_place_dispo,nom_pilotes,nom_avions,id_avions,id_pilotes FROM `vol`
-LEFT JOIN avions on id_avions=ref_avions
-LEFT JOIN pilotes on id_pilotes=ref_pilotes
-LEFT JOIN reservation on id_vol=ref_vol";
+        $affiche = "SELECT CONCAT('Départ: ', heure_depart, ' - Arrivée: ', heure_arrive) AS heure_complete, 
+    nb_place_dispo, 
+    ref_pilotes, 
+    ref_avions, 
+    id_avions, 
+    id_pilotes
+FROM `vol`
+LEFT JOIN avions ON id_avions = ref_avions
+LEFT JOIN pilotes ON id_pilotes = ref_pilotes
+LEFT JOIN reservation ON id_vol = ref_vol";
+
         $req = $this->bdd->getBdd()->prepare($affiche);
         $req->execute();
         return $req->fetchAll();
