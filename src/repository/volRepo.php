@@ -110,7 +110,7 @@ LEFT JOIN pilotes on id_pilotes=ref_pilotes";
 
     public function getAvions()
     {
-        $get="SELECT id_avions,nom,place_totale FROM avions ORDER BY nom ASC";
+        $get="SELECT id_avions,nom_avions,place_totale FROM avions ORDER BY nom_avions ASC";
         $res = $this->bdd->getBdd()->prepare($get);
         $res->execute();
         return $res->fetchAll();
